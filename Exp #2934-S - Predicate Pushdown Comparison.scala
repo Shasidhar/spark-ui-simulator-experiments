@@ -1,4 +1,31 @@
 // Databricks notebook source
+// MAGIC %md
+// MAGIC <table>
+// MAGIC   <tr>
+// MAGIC     <td></td>
+// MAGIC       <td>VM</td>
+// MAGIC       <td>Quantity</td>
+// MAGIC       <td>Total Cores</td>
+// MAGIC       <td>Total RAM</td>
+// MAGIC   </tr>
+// MAGIC   <tr>
+// MAGIC       <td>Driver:</td>
+// MAGIC       <td>**Standard_DS12_v2**</td>
+// MAGIC       <td>**1**</td>
+// MAGIC       <td>**4 cores**</td>
+// MAGIC       <td>**28.0 GB**</td>
+// MAGIC   </tr>
+// MAGIC   <tr>
+// MAGIC       <td>Workers:</td>
+// MAGIC       <td>**Standard_DS12_v2**</td>
+// MAGIC       <td>**4**</td>
+// MAGIC       <td>**8 cores**</td>
+// MAGIC       <td>**56 GB**</td>
+// MAGIC   </tr>
+// MAGIC </table>
+
+// COMMAND ----------
+
 sc.setJobDescription("Step A: Basic initialization")
 import org.apache.spark.sql.functions._
 
@@ -13,7 +40,7 @@ val targetCity = 2063810344
 sc.setJobDescription("Step B: Establish a baseline")
 
 // Not optimized for any type of filtering
-val deltaPath = "dbfs:/mnt/training/global-sales/transactions/2011-to-2018-100gb.delta"
+val deltaPath = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb.delta"
 
 spark
   .read.format("delta").load(deltaPath)          // Load the delta table
@@ -25,7 +52,7 @@ spark
 sc.setJobDescription("Step C: Partitioned by city")
 
 // Partitioned on disk by city_id
-val parPath = "dbfs:/mnt/training/global-sales/transactions/2011-to-2018-100gb-par_city.delta"
+val parPath = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb-par_city.delta"
 
 spark.read.format("delta").load(parPath)            // Load the partitioned, delta table
      .filter($"p_city_id" === targetCity)           // Filter by target city
@@ -36,7 +63,7 @@ spark.read.format("delta").load(parPath)            // Load the partitioned, del
 sc.setJobDescription("Step D: Z-Ordered by city")
 
 // Delta table Z-Ordered by city_id
-val zoPath = "dbfs:/mnt/training/global-sales/transactions/2011-to-2018-100gb-zo_city.delta"
+val zoPath = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb-zo_city.delta"
 
 spark.read.format("delta").load(zoPath)             // Load the z-ordered, delta table
      .filter($"z_city_id" === targetCity)           // Filter by target city
@@ -47,7 +74,7 @@ spark.read.format("delta").load(zoPath)             // Load the z-ordered, delta
 sc.setJobDescription("Step E: Bucketed by city")
 
 // Parquet file previously bucketed by city_id into 400 buckets
-val bucketPath = "dbfs:/mnt/training/global-sales/transactions/2011-to-2018-100gb-bkt_city_400.parquet"
+val bucketPath = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb-bkt_city_400.parquet"
 
 val tableName = "transactions_bucketed"               // The name of our table
 spark.sql(s"CREATE DATABASE IF NOT EXISTS dbacademy") // Create the database
