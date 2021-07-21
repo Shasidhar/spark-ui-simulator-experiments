@@ -1,0 +1,80 @@
+
+import re
+import pandas as pd
+from pyspark.sql.functions import *
+from pyspark.sql.types import StringType
+
+# Databricks notebook source
+sc.setJobDescription("Step A: Basic initialization")
+
+# Disable the Delta IO Cache to avoid side effects
+spark.conf.set("spark.databricks.io.cache.enabled", False)
+sc.setJobDescription("Step B: Create Table")
+
+initDF = (spark
+  .read
+  .format("delta")
+  .load("wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb-par_year.delta")
+)
+initDF.createOrReplaceTempView("transactions")
+
+# Printing the schema here forces spark to read the schema
+# avoiding side effects in future benchmarks
+initDF.printSchema()
+
+sc.setJobDescription("Step C: Establish a baseline")
+​
+baseTrxDF = (spark
+  .read.table("transactions")
+  .select("description")
+) 
+baseTrxDF.write.mode("overwrite").format("noop").save()
+"""
+string concatination
+"""
+sc.setJobDescription("Step F: Python Vectorized UDFs")
+
+@pandas_udf('string')
+def add_string(descriptions: pd.Series) -> pd.Series:
+  def _add_string(description):
+    ccdId =  "hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhh_hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhgvhgghgjgjgjhghgjhgjhggjgjhgjgjhgjghgjhgjggjhgjhgjhgjhgjhgjhghjgjhgjhghh" + description
+    
+    return ccdId 
+  return descriptions.map(_add_string)
+
+trxDF = (baseTrxDF
+  .withColumn("added", add_string("description"))
+)
+trxDF.write.mode("overwrite").format("noop").save()
+sc.setJobDescription("Step F: Python Vectorized UDFs")
+
+@pandas_udf('integer')
+def calculate(descriptions: pd.Series) -> pd.Series:
+  def _calculate(description):
+    ccdId = len(description)/1000*200+17-11%2+5467
+    
+    return ccdId 
+  return descriptions.map(_calculate)
+
+trxDF = (baseTrxDF
+  .withColumn("added", calculate("description"))
+)
+trxDF.write.mode("overwrite").format("noop").save()
+
+"""
+Adding calculations
+"""
+sc.setJobDescription("Step F: Python Vectorized UDFs")
+
+@pandas_udf('integer')
+def calculate(descriptions: pd.Series) -> pd.Series:
+  def _calculate(description):
+    ccdId = len(description)/1000*200+17-11%2+5467
+    
+    return ccdId 
+  return descriptions.map(_calculate)
+
+trxDF = (baseTrxDF
+  .withColumn("added", calculate("description"))
+)
+trxDF.write.mode("overwrite").format("noop").save()
