@@ -19,8 +19,8 @@
 # MAGIC       <td>Workers:</td>
 # MAGIC       <td>**Standard_DS12_v2**</td>
 # MAGIC       <td>**4**</td>
-# MAGIC       <td>**8 cores**</td>
-# MAGIC       <td>**56 GB**</td>
+# MAGIC       <td>**16 cores**</td>
+# MAGIC       <td>**112 GB**</td>
 # MAGIC   </tr>
 # MAGIC </table>
 
@@ -32,7 +32,7 @@ from pyspark.sql.functions import *
 spark.conf.set("spark.databricks.io.cache.enabled", "false")
 
 # 100 GBs of data, partitioned by year
-data_path = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb-par_year.delta"
+data_path_part = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb-par_year.delta"
 
 # Same 100 GB of data, not optimized for any type of filtering
 data_path_not_part = "wasbs://spark-ui-simulator@dbacademy.blob.core.windows.net/global-sales/transactions/2011-to-2018-100gb.delta"
