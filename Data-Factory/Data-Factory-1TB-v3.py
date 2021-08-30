@@ -14,6 +14,7 @@
 
 # display(dbutils.fs.ls(mount_point))
 
+
 # COMMAND ----------
 
 # MAGIC %fs ls dbfs:/mnt/dbacademy/spark-ui-simulator-rw/tb-examples
