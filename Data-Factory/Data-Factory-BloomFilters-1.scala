@@ -1,7 +1,7 @@
 // Databricks notebook source
-// MAGIC %sql
-// MAGIC SET spark.databricks.io.skipping.bloomFilter.enabled = true;
-// MAGIC SET delta.bloomFilter.enabled = true;
+pp%sql
+SET spark.databricks.io.skipping.bloomFilter.enabled = true;
+SET delta.bloomFilter.enabled = true;
 
 // COMMAND ----------
 

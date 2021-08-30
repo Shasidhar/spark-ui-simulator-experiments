@@ -7,7 +7,7 @@
 
 // MAGIC %python
 // MAGIC # This SAS token should be valid for no more than 8 hours
-// MAGIC sas_token = "sp=racwdl&st=2021-08-03T16:30:40Z&se=2021-08-11T00:30:40Z&spr=https&sv=2020-08-04&sr=c&sig=QUfhbcs1BVddsDRHXuY7rNrv7lwSJrSzvvR5k1icbJk%3D"
+// MAGIC sas_token = "sp=racwdl&st=2021-08-27T20:30:30Z&se=2021-08-31T04:30:30Z&spr=https&sv=2020-08-04&sr=c&sig=bozsjNyIeMSj9eV1kbgRBaYp%2BWiK10Q5r%2FB2%2BIU2U9g%3D"
 // MAGIC config_map = {"fs.azure.sas.spark-ui-simulator.dbacademy.blob.core.windows.net": sas_token}
 // MAGIC 
 // MAGIC mount_point = f"/mnt/dbacademy/spark-ui-simulator-rw"
