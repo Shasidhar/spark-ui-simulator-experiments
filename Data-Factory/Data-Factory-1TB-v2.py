@@ -14,7 +14,6 @@ print(f"{mount_point} has been mounted from {source_path}")
 
 display(dbutils.fs.ls(mount_point))
 
-
 # COMMAND ----------
 
 # 1000 == partitions 1G each

@@ -1,16 +1,4 @@
 # Databricks notebook source
-
-
-# COMMAND ----------
-
-
-
-# COMMAND ----------
-
-
-
-# COMMAND ----------
-
 # # This SAS token should be valid for no more than 8 hours
 # sas_token = "sp=racwdl&st=2021-08-27T20:30:30Z&se=2021-08-31T04:30:30Z&spr=https&sv=2020-08-04&sr=c&sig=bozsjNyIeMSj9eV1kbgRBaYp%2BWiK10Q5r%2FB2%2BIU2U9g%3D"
 # config_map = {"fs.azure.sas.spark-ui-simulator.dbacademy.blob.core.windows.net": sas_token}
@@ -25,7 +13,6 @@
 # print(f"{mount_point} has been mounted from {source_path}")
 
 # display(dbutils.fs.ls(mount_point))
-
 
 # COMMAND ----------
 
