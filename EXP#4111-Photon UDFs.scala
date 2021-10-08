@@ -41,7 +41,7 @@ val parseTypeUDF = spark.udf.register("parseType", parseType _)
 
 // COMMAND ----------
 
-sc.setJobDescription("Step A: UDFs without photon. Writing to temp location")
+sc.setJobDescription("Step A: UDF with write on Delta table")
 
 val baseTrxDF = spark
   .read.schema(fullSchema)                                     
@@ -53,18 +53,3 @@ val trxDF = baseTrxDF
   .withColumn("id", parserIdUDF($"description"))
 
 trxDF.write.mode("overwrite").format("delta").save("/tmp/non_photon_udf_output")
-
-// COMMAND ----------
-
-sc.setJobDescription("Step B: UDFs with photon. Writing to temp location")
-
-val baseTrxDF = spark
-  .read.schema(fullSchema)                                     
-  .parquet(sourceFile)                                         
-  .select("description")
-
-val trxDF = baseTrxDF
-  .withColumn("trxType", parseTypeUDF($"description"))
-  .withColumn("id", parserIdUDF($"description"))
-
-trxDF.write.mode("overwrite").format("delta").save("/tmp/photon_udf_output")
